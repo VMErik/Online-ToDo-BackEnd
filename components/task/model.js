@@ -15,6 +15,10 @@ const taskSchema = new Schema({
         type: String,
     },
     list: [{
+        id: {
+            type: String,
+            required: true,
+        },
         completed: {
             type: Boolean,
             default: false,
@@ -28,3 +32,6 @@ const taskSchema = new Schema({
         enum: ['PENDIENTE', 'TERMINADO', 'ELIMINADO', 'PAPELERA']
     }
 });
+
+const task = mongoose.model('Task', taskSchema);
+module.exports = task;
