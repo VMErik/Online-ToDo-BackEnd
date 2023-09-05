@@ -4,14 +4,17 @@ const response = require('../../network/response');
 
 const router = express.Router();
 
-
+// Tasks
 router.get('/', list);
 router.get('/:id', getId);
 router.post('/', insert);
 router.patch('/:id', update);
 router.delete('/:id', remove);
 
-
+// Subtasks
+router.post('/:idTask/Add/', insertSubTask);
+router.patch('/:idTask/Update/:idSubtask', updateSubTask);
+router.delete('/:idTask/Remove/:idSubtask', deleteSubTask);
 
 function list(req, res) {
     controller.listTasks()
@@ -37,7 +40,6 @@ function getId(req, res) {
 
 
 function insert(req, res) {
-    console.log(req.body);
     controller.addTask(req.body)
         .then(data => {
             response.success(req, res, data, 200);
@@ -70,6 +72,44 @@ function remove(req, res) {
             response.error(req, res, 'Internal Error', 500, err);
         });
 }
+
+
+function insertSubTask(req, res) {
+    const { idTask } = req.params;
+    const data = req.body;
+    controller.insertSubTask(idTask, data)
+        .then(data => {
+            response.success(req, res, data, 200);
+        })
+        .catch(err => {
+            response.error(req, res, 'Internal Error', 500, err);
+        });
+}
+
+
+function deleteSubTask(req, res) {
+    const { idTask, idSubtask } = req.params;
+    controller.removeSubtask(idTask, idSubtask)
+        .then(data => {
+            response.success(req, res, data, 200);
+        })
+        .catch(err => {
+            response.error(req, res, 'Internal Error', 500, err);
+        });
+}
+
+function updateSubTask(req, res) {
+    const { idTask, idSubtask } = req.params;
+    const data = req.body;
+    controller.updateSubTask(idTask, idSubtask, data)
+        .then(data => {
+            response.success(req, res, data, 200);
+        })
+        .catch(err => {
+            response.error(req, res, 'Internal Error', 500, err);
+        });
+}
+
 
 
 module.exports = router;

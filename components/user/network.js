@@ -31,7 +31,6 @@ function getId(req, res) {
 }
 
 function insert(req, res) {
-    console.log(req.body);
     controller.addUser(req.body)
         .then(data => {
             response.success(req, res, data, 200);

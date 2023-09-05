@@ -1,7 +1,6 @@
 const Task = require('./model');
 
 async function addTask(task) {
-    console.log('Enta al insert')
     const myTask = new Task(task);
     return await myTask.save();
 }
@@ -20,6 +19,7 @@ async function updateTask(id, data) {
 async function removeTask(id) {
     return await Task.findByIdAndDelete(id, { new: true });
 }
+
 
 module.exports = {
     addTask,
