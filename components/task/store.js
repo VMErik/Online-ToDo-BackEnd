@@ -1,4 +1,5 @@
 const Task = require('./model');
+const ObjectId = require('mongoose').Types.ObjectId;
 
 async function addTask(task) {
     const myTask = new Task(task);
@@ -11,6 +12,13 @@ async function listTask(id) {
 
 async function listTasks() {
     return await Task.find();
+}
+
+
+async function listTasksByUser(id) {
+    const query = { user: new ObjectId(id) };
+    return await Task.find(query);
+
 }
 
 async function updateTask(id, data) {
@@ -26,5 +34,6 @@ module.exports = {
     listTask,
     listTasks,
     updateTask,
-    removeTask
+    removeTask,
+    listTasksByUser
 }

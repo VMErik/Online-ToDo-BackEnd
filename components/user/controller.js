@@ -1,5 +1,5 @@
 const Store = require('./store');
-
+const bcrypt = require('bcrypt');
 
 
 function listUser(id) {
@@ -14,15 +14,16 @@ function listUsers() {
     })
 }
 
-function addUser(data) {
+async function addUser(data) {
     const { name, username, password, email } = data;
     if (!name || !username || !password || !email) {
         return Promise.reject('Invalid data');
     } else {
+        const mySecurePass = await bcrypt.hash(password, 6);
         const myUser = {
             name,
             username,
-            password,
+            password: mySecurePass,
             email
         };
         return Store.addUser(myUser);
@@ -38,7 +39,6 @@ function updateUser(id, data) {
         const myUser = {
             name,
             username,
-            password,
             email
         };
         return Store.updateUser(id, myUser);

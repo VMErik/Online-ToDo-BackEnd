@@ -2,6 +2,7 @@ const express = require('express')
 const controller = require('./controller');
 const response = require('../../network/response');
 
+
 const router = express.Router();
 
 // Tasks
@@ -17,13 +18,28 @@ router.patch('/:idTask/Update/:idSubtask', updateSubTask);
 router.delete('/:idTask/Remove/:idSubtask', deleteSubTask);
 
 function list(req, res) {
-    controller.listTasks()
-        .then(data => {
-            response.success(req, res, data, 200);
-        })
-        .catch(error => {
-            response.error(req, res, 'Internal Error', 500, error);
-        });
+
+    const { user } = req.query;
+    if (!user) {
+        // No hay usuario, mostramos todas
+        controller.listTasks()
+            .then(data => {
+                response.success(req, res, data, 200);
+            })
+            .catch(error => {
+                response.error(req, res, 'Internal Error', 500, error);
+            });
+    } else {
+        // Filtramos solo por usuario
+        controller.listTasksByUser(user)
+            .then(data => {
+                response.success(req, res, data, 200);
+            })
+            .catch(error => {
+                response.error(req, res, 'Internal Error', 500, error);
+            });
+    }
+
 }
 
 

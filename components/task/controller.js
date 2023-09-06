@@ -36,6 +36,17 @@ async function listTasks() {
         resolve(Store.listTasks());
     })
 }
+async function listTasksByUser(id) {
+
+    if (ObjectId.isValid(id)) {
+        return new Promise(function(resolve, reject) {
+            resolve(Store.listTasksByUser(id));
+        })
+    } else {
+        return Promise.reject('Invalid user');
+    }
+}
+
 
 async function updateTask(id, data) {
     return Store.updateTask(id, data, { new: true });
@@ -101,6 +112,7 @@ async function updateSubTask(idTask, idSubTask, data) {
 
 module.exports = {
     listTasks,
+    listTasksByUser,
     listTask,
     updateTask,
     removeTask,
