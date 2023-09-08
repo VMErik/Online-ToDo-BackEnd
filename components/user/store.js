@@ -17,9 +17,14 @@ async function updateUser(id, data) {
     return User.findByIdAndUpdate(id, data, { new: true });
 }
 
+async function query(query) {
+    return User.findOne(query);
+}
+
 module.exports = {
     addUser,
     listUsers,
     listUser,
-    updateUser
+    updateUser,
+    query
 }

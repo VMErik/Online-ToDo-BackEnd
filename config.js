@@ -5,5 +5,8 @@ module.exports = {
     }, //
     db: {
         URL: process.env.DB_URL || ''
+    },
+    jwt: {
+        secret: process.env.JWT_SECRET || ''
     }
 }
