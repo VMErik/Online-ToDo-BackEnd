@@ -6,7 +6,7 @@ async function login(username, password) {
     const query = {
         username: username
     }
-    const data = await Store.query(query);
+    let data = await Store.query(query);
     console.log(data);
     if (data) {
         return bcrypt.compare(password, data.password)
@@ -25,7 +25,7 @@ async function login(username, password) {
                 return Promise.reject('Internal error');
             })
     } else {
-        return Promise.reject('The user does not existe');
+        return Promise.reject('The user does not exist');
     }
 }
 

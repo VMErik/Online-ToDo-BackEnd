@@ -17,7 +17,7 @@ router.post('/:idTask/Add/', insertSubTask);
 router.patch('/:idTask/Update/:idSubtask', updateSubTask);
 router.delete('/:idTask/Remove/:idSubtask', deleteSubTask);
 
-function list(req, res) {
+function list(req, res, next) {
 
     const { user } = req.query;
     if (!user) {
@@ -26,104 +26,93 @@ function list(req, res) {
             .then(data => {
                 response.success(req, res, data, 200);
             })
-            .catch(error => {
-                response.error(req, res, 'Internal Error', 500, error);
-            });
+            .catch(next);
     } else {
         // Filtramos solo por usuario
         controller.listTasksByUser(user)
             .then(data => {
                 response.success(req, res, data, 200);
             })
-            .catch(error => {
-                response.error(req, res, 'Internal Error', 500, error);
-            });
+            .catch(next);
     }
 
 }
 
 
-function getId(req, res) {
+function getId(req, res, next) {
     const id = req.params.id;
     controller.listTask(id)
         .then(data => {
             response.success(req, res, data, 200);
         })
-        .catch(error => {
-            response.error(req, res, 'Internal Error', 500, error);
-        });
+        .catch(next);
+
 }
 
 
-function insert(req, res) {
+function insert(req, res, next) {
     controller.addTask(req.body)
         .then(data => {
             response.success(req, res, data, 200);
         })
-        .catch(err => {
-            response.error(req, res, 'Internal Error', 500, err);
-        });
+        .catch(next);
+
 }
 
 
-function update(req, res) {
+function update(req, res, next) {
     const id = req.params.id;
     const data = req.body;
     controller.updateTask(id, data)
         .then(data => {
             response.success(req, res, data, 200);
         })
-        .catch(err => {
-            response.error(req, res, 'Internal Error', 500, err);
-        });
+        .catch(next);
+
 }
 
-function remove(req, res) {
+function remove(req, res, next) {
     const id = req.params.id;
     controller.removeTask(id)
         .then(data => {
             response.success(req, res, data, 200);
         })
-        .catch(err => {
-            response.error(req, res, 'Internal Error', 500, err);
-        });
+        .catch(next);
+
 }
 
 
-function insertSubTask(req, res) {
+function insertSubTask(req, res, next) {
     const { idTask } = req.params;
     const data = req.body;
     controller.insertSubTask(idTask, data)
         .then(data => {
             response.success(req, res, data, 200);
         })
-        .catch(err => {
-            response.error(req, res, 'Internal Error', 500, err);
-        });
+        .catch(next);
+
 }
 
 
-function deleteSubTask(req, res) {
+function deleteSubTask(req, res, next) {
     const { idTask, idSubtask } = req.params;
     controller.removeSubtask(idTask, idSubtask)
         .then(data => {
             response.success(req, res, data, 200);
         })
-        .catch(err => {
-            response.error(req, res, 'Internal Error', 500, err);
-        });
+        .catch(next);
+
 }
 
-function updateSubTask(req, res) {
+function updateSubTask(req, res, next) {
     const { idTask, idSubtask } = req.params;
     const data = req.body;
     controller.updateSubTask(idTask, idSubtask, data)
         .then(data => {
             response.success(req, res, data, 200);
         })
-        .catch(err => {
-            response.error(req, res, 'Internal Error', 500, err);
-        });
+        .catch(next);
+
 }
 
 
