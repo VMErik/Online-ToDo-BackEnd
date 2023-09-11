@@ -1,16 +1,16 @@
 const express = require('express')
 const controller = require('./controller');
 const response = require('../../network/response');
-
+const secure = require('./secure');
 
 const router = express.Router();
 
 // Tasks
-router.get('/', list);
-router.get('/:id', getId);
-router.post('/', insert);
-router.patch('/:id', update);
-router.delete('/:id', remove);
+router.get('/', secure('list'), list);
+router.get('/:id', secure('logged'), getId);
+router.post('/', secure('create'), insert);
+router.patch('/:id', secure('logged'), update);
+router.delete('/:id', secure('logged'), remove);
 
 // Subtasks
 router.post('/:idTask/Add/', insertSubTask);

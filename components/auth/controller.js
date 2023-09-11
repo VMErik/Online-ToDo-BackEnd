@@ -15,7 +15,8 @@ async function login(username, password) {
                     const plainObject = {
                         ...data
                     }
-                    return auth.sign(plainObject);
+                    console.log('Plan object -- ', plainObject);
+                    return auth.sign(plainObject._doc);
                 } else {
                     return Promise.reject('The password dont match');
                 }

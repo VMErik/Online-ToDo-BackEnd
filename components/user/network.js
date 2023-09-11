@@ -2,12 +2,14 @@ const express = require('express');
 const controller = require('./controller');
 const response = require('../../network/response');
 
+const secure = require('./secure');
+
 const router = express.Router();
 
-router.get('/', list);
-router.get('/:id', getId);
+router.get('/', secure('logged'), list);
+router.get('/:id', secure('logged'), getId);
 router.post('/', insert);
-router.patch('/:id', update);
+router.patch('/:id', secure('update'), update);
 
 function list(req, res, next) {
     controller.listUsers()
@@ -38,6 +40,7 @@ function insert(req, res, next) {
 function update(req, res, next) {
     const id = req.params.id;
     const data = req.body;
+
     controller.updateUser(id, data)
         .then(data => {
             response.success(req, res, data, 200);

@@ -18,7 +18,7 @@ async function updateUser(id, data) {
 }
 
 async function query(query) {
-    return User.findOne(query);
+    return await User.findOne(query);
 }
 
 module.exports = {
