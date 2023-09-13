@@ -51,6 +51,9 @@ function getId(req, res, next) {
 
 
 function insert(req, res, next) {
+
+    console.log(req.user);
+
     controller.addTask(req.body)
         .then(data => {
             response.success(req, res, data, 200);

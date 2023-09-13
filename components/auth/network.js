@@ -6,7 +6,6 @@ const router = express.Router();
 // Validaciones
 const { validatorLogin } = require('./validators')
 const { loginSchema } = require('./schema-validator');
-
 // Rutas
 router.post('/login', validatorLogin(loginSchema, "body"), login)
     // Funciones

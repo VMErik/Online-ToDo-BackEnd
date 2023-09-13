@@ -1,15 +1,16 @@
 const express = require('express');
 const controller = require('./controller');
 const response = require('../../network/response');
-
+const { validator } = require('./validators');
 const secure = require('./secure');
+const { newUserSchema } = require('./schema-validator');
 
 const router = express.Router();
 
 router.get('/', secure('logged'), list);
 router.get('/:id', secure('logged'), getId);
-router.post('/', insert);
-router.patch('/:id', secure('update'), update);
+router.post('/', validator(newUserSchema, "body"), insert);
+router.patch('/:id', [secure('update'), validator(newUserSchema, "body")], update);
 
 function list(req, res, next) {
     controller.listUsers()
