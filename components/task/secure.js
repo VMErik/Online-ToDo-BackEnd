@@ -7,8 +7,14 @@ module.exports = function checkAth(action) {
         switch (action) {
             case 'list':
                 owner = req.query.user;
-                auth.check.own(req, owner);
-                next();
+                if (owner) {
+                    auth.check.own(req, owner);
+                    next();
+                } else {
+                    auth.check.logged(req, res, next);
+                    next();
+                }
+
                 break;
             case 'create':
                 owner = req.body.user;

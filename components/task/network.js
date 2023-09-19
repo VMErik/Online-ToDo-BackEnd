@@ -3,13 +3,16 @@ const controller = require('./controller');
 const response = require('../../network/response');
 const secure = require('./secure');
 
+const { TaskSchema } = require('./schema-validator');
+const { validatorTask } = require('./validators');
+
 const router = express.Router();
 
 // Tasks
 router.get('/', secure('list'), list);
 router.get('/:id', secure('logged'), getId);
-router.post('/', secure('create'), insert);
-router.patch('/:id', secure('logged'), update);
+router.post('/', [secure('create'), validatorTask(TaskSchema, "body")], insert);
+router.patch('/:id', [secure('logged')], update);
 router.delete('/:id', secure('logged'), remove);
 
 // Subtasks
@@ -52,7 +55,6 @@ function getId(req, res, next) {
 
 function insert(req, res, next) {
 
-    console.log(req.user);
 
     controller.addTask(req.body)
         .then(data => {
